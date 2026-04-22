@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+*.sqlite
+*.db
+.DS_Store
+node_modules/
+.vscode/
+.idea/

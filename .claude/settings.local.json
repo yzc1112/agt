@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 step01_hello_llm.py)",
+      "Bash(python3 -c \"import openai; print\\('openai ok'\\)\")",
+      "Bash(python3 -c \"import dotenv; print\\('dotenv ok'\\)\")",
+      "Bash(xcode-select --install)",
+      "Bash(/usr/bin/python3 *)",
+      "Read(//usr/local/bin/**)",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(sudo xcode-select *)",
+      "Bash(curl -fsSL \"https://www.python.org/ftp/python/3.12.0/python-3.12.0-macos11.pkg\" -o /tmp/python.pkg)",
+      "Bash(/usr/local/bin/python3 -m pip install openai python-dotenv)",
+      "Bash(/usr/local/bin/python3 step09_final_agent.py)",
+      "Bash(/usr/local/bin/python3 step04_agent_loop.py)",
+      "Bash(grep *)",
+      "Bash(ls *)",
+      "Bash(python3 *)",
+      "Bash(open *)",
+      "Bash(pkill -f \"uvicorn server:app\")",
+      "Bash(curl -s http://localhost:8000/)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(curl -s http://localhost:8000/step/step03_tool_use.py)",
+      "Bash(lsof -ti:8000)",
+      "Bash(xargs kill *)"
+    ]
+  }
+}
