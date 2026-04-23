@@ -8,460 +8,7 @@
   <!-- Fonts: Neon Cyber style — Clash Display + Satoshi -->
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" />
 
-  <style>
-    /* ===========================================
-       CSS CUSTOM PROPERTIES (THEME: NEON CYBER)
-       Futuristic AI agent aesthetic
-       =========================================== */
-    :root {
-      --bg-primary: #0a0f1c;
-      --bg-secondary: #111827;
-      --bg-card: #0f172a;
-      --text-primary: #ffffff;
-      --text-secondary: #94a3b8;
-      --accent-cyan: #00ffcc;
-      --accent-magenta: #ff00aa;
-      --accent-blue: #4361ee;
-      --accent-glow: rgba(0, 255, 204, 0.25);
-      --accent-glow-magenta: rgba(255, 0, 170, 0.2);
-      --font-display: "Clash Display", sans-serif;
-      --font-body: "Satoshi", sans-serif;
-      --font-mono: "JetBrains Mono", monospace;
-
-      /* Typography — MUST use clamp() */
-      --title-size: clamp(2rem, 6vw, 5rem);
-      --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
-      --h3-size: clamp(1rem, 2.5vw, 1.5rem);
-      --body-size: clamp(0.75rem, 1.5vw, 1.1rem);
-      --small-size: clamp(0.65rem, 1vw, 0.875rem);
-      --code-size: clamp(0.6rem, 1.2vw, 0.9rem);
-
-      /* Spacing — MUST use clamp() */
-      --slide-padding: clamp(1.5rem, 4vw, 4rem);
-      --content-gap: clamp(0.75rem, 2vw, 1.5rem);
-      --element-gap: clamp(0.25rem, 1vw, 0.75rem);
-
-      /* Animation */
-      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-      --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
-      --duration-normal: 0.6s;
-      --duration-slow: 1s;
-    }
-
-    /* ===========================================
-       BASE STYLES
-       =========================================== */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; overflow-x: hidden; }
-    html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
-
-    /* ===========================================
-       SLIDE BASE — every slide is exact viewport height
-       =========================================== */
-    .slide {
-      width: 100vw;
-      height: 100vh;
-      height: 100dvh;
-      overflow: hidden;
-      scroll-snap-align: start;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      background: var(--bg-primary);
-    }
-
-    .slide-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      max-height: 100%;
-      overflow: hidden;
-      padding: var(--slide-padding);
-    }
-
-    /* ===========================================
-       NEON CYBER BACKGROUND EFFECTS
-       =========================================== */
-    .slide::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 50% at 20% 50%, var(--accent-glow) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 80%, var(--accent-glow-magenta) 0%, transparent 50%);
-      pointer-events: none;
-      opacity: 0.4;
-    }
-
-    .slide::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,255,204,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,204,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-    }
-
-    /* ===========================================
-       TYPOGRAPHY
-       =========================================== */
-    h1 {
-      font-family: var(--font-display);
-      font-size: var(--title-size);
-      font-weight: 700;
-      color: var(--text-primary);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-
-    h2 {
-      font-family: var(--font-display);
-      font-size: var(--h2-size);
-      font-weight: 600;
-      color: var(--text-primary);
-      line-height: 1.2;
-    }
-
-    h3 {
-      font-family: var(--font-body);
-      font-size: var(--h3-size);
-      font-weight: 500;
-      color: var(--accent-cyan);
-    }
-
-    p, li {
-      font-family: var(--font-body);
-      font-size: var(--body-size);
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    code, pre {
-      font-family: var(--font-mono);
-      font-size: var(--code-size);
-    }
-
-    /* ===========================================
-       ANIMATIONS — triggered by .visible class
-       =========================================== */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition:
-        opacity var(--duration-normal) var(--ease-out-expo),
-        transform var(--duration-normal) var(--ease-out-expo);
-    }
-
-    .slide.visible .reveal {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal:nth-child(1) { transition-delay: 0.05s; }
-    .reveal:nth-child(2) { transition-delay: 0.12s; }
-    .reveal:nth-child(3) { transition-delay: 0.19s; }
-    .reveal:nth-child(4) { transition-delay: 0.26s; }
-    .reveal:nth-child(5) { transition-delay: 0.33s; }
-    .reveal:nth-child(6) { transition-delay: 0.40s; }
-
-    /* ===========================================
-       SLIDE LAYOUTS
-       =========================================== */
-
-    /* Title slide */
-    .title-slide .slide-content {
-      align-items: center;
-      text-align: center;
-      gap: var(--content-gap);
-    }
-
-    .title-slide h1 {
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .subtitle {
-      font-family: var(--font-body);
-      font-size: var(--body-size);
-      color: var(--text-secondary);
-      max-width: 60ch;
-    }
-
-    .step-badge {
-      display: inline-block;
-      padding: 0.3em 1em;
-      border: 1px solid var(--accent-cyan);
-      border-radius: 100px;
-      font-family: var(--font-mono);
-      font-size: var(--small-size);
-      color: var(--accent-cyan);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    /* Concept slides */
-    .concept-slide .slide-content {
-      gap: var(--content-gap);
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .concept-card {
-      background: var(--bg-card);
-      border: 1px solid rgba(0, 255, 204, 0.15);
-      border-radius: 12px;
-      padding: clamp(1rem, 3vw, 2rem);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .concept-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
-    }
-
-    /* Code slides */
-    .code-slide .slide-content {
-      gap: var(--content-gap);
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .code-block {
-      background: #0d1117;
-      border: 1px solid rgba(0, 255, 204, 0.2);
-      border-radius: 12px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .code-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.6em 1em;
-      background: rgba(0, 0, 0, 0.3);
-      border-bottom: 1px solid rgba(0, 255, 204, 0.1);
-    }
-
-    .code-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-    }
-    .code-dot.red { background: #ff5f56; }
-    .code-dot.yellow { background: #ffbd2e; }
-    .code-dot.green { background: #27c93f; }
-
-    /* Flow step highlighting */
-    .flow-line {
-      padding: 0.1rem 0;
-      margin: 0;
-      border-left: 3px solid transparent;
-      padding-left: 0.5rem;
-    }
-    .flow-line.active {
-      background: rgba(0, 255, 204, 0.08);
-      border-left-color: var(--accent-cyan);
-      opacity: 1 !important;
-    }
-    .flow-card {
-      animation: fadeSlideIn 0.3s ease;
-    }
-    @keyframes fadeSlideIn {
-      from { opacity: 0; transform: translateY(-8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .code-filename {
-      font-family: var(--font-mono);
-      font-size: var(--small-size);
-      color: var(--text-secondary);
-      margin-left: 0.5rem;
-    }
-
-    .code-body {
-      padding: clamp(0.5rem, 1.5vw, 1rem);
-      overflow-x: auto;
-      overflow-y: auto;
-      max-height: min(50vh, 400px);
-    }
-
-    .code-body pre {
-      color: #e6edf3;
-      line-height: 1.4;
-      white-space: pre;
-      tab-size: 2;
-    }
-
-    /* Syntax highlighting */
-    .kw { color: #ff7b72; }
-    .fn { color: #d2a8ff; }
-    .str { color: #a5d6ff; }
-    .cmt { color: #8b949e; font-style: italic; }
-    .num { color: #79c0ff; }
-    .op { color: #ff7b72; }
-
-    /* Step indicator */
-    .step-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--font-mono);
-      font-size: var(--small-size);
-      color: var(--accent-cyan);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-bottom: 0.5rem;
-    }
-
-    .step-number {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 10vw, 7rem);
-      font-weight: 700;
-      color: var(--accent-cyan);
-      opacity: 0.06;
-      position: absolute;
-      top: var(--slide-padding);
-      right: var(--slide-padding);
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    /* Contrast grid */
-    .contrast-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-      gap: var(--content-gap);
-    }
-
-    .contrast-card {
-      background: var(--bg-card);
-      border: 1px solid rgba(0, 255, 204, 0.1);
-      border-radius: 12px;
-      padding: clamp(1rem, 2vw, 1.5rem);
-      transition: border-color 0.3s, transform 0.3s;
-    }
-
-    .contrast-card:hover {
-      border-color: rgba(0, 255, 204, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .contrast-card h3 {
-      color: var(--accent-magenta);
-      margin-bottom: 0.75rem;
-    }
-
-    .contrast-card p { font-size: var(--small-size); line-height: 1.5; }
-
-    /* Takeaway slide */
-    .takeaway-slide .slide-content {
-      align-items: center;
-      text-align: center;
-      gap: var(--content-gap);
-    }
-
-    .takeaway-quote {
-      font-family: var(--font-display);
-      font-size: clamp(1.2rem, 3vw, 2rem);
-      font-weight: 600;
-      color: var(--text-primary);
-      max-width: 20ch;
-      line-height: 1.3;
-    }
-
-    .takeaway-quote em {
-      color: var(--accent-cyan);
-      font-style: normal;
-    }
-
-    .takeaway-sub {
-      font-family: var(--font-body);
-      font-size: var(--body-size);
-      color: var(--text-secondary);
-      max-width: 50ch;
-      line-height: 1.6;
-    }
-
-    /* ===========================================
-       NAVIGATION DOTS
-       =========================================== */
-    .nav-dots {
-      position: fixed;
-      right: clamp(0.5rem, 2vw, 1.5rem);
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      z-index: 100;
-    }
-
-    .nav-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      cursor: pointer;
-      transition: all 0.3s;
-      border: none;
-      padding: 0;
-    }
-
-    .nav-dot:hover { background: rgba(255, 255, 255, 0.5); }
-    .nav-dot.active {
-      background: var(--accent-cyan);
-      box-shadow: 0 0 8px var(--accent-cyan);
-      transform: scale(1.3);
-    }
-
-    /* ===========================================
-       PROGRESS BAR
-       =========================================== */
-    .progress-bar {
-      position: fixed;
-      top: 0; left: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
-      z-index: 200;
-      transition: width 0.3s var(--ease-out-expo);
-    }
-
-    /* ===========================================
-       RESPONSIVE BREAKPOINTS
-       =========================================== */
-    @media (max-height: 700px) {
-      :root {
-        --slide-padding: clamp(0.75rem, 3vw, 2rem);
-        --content-gap: clamp(0.4rem, 1.5vw, 1rem);
-        --title-size: clamp(1.5rem, 5vw, 3rem);
-      }
-    }
-
-    @media (max-height: 600px) {
-      :root {
-        --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
-        --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
-      }
-      .nav-dots { display: none; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.2s !important;
-      }
-      html { scroll-behavior: auto; }
-    }
-  </style>
+  <link rel="stylesheet" href="/static/css/pres.css" />
 </head>
 <body>
 
@@ -476,14 +23,85 @@
        =========================================== -->
   <section class="slide title-slide">
     <div class="slide-content">
-      <span class="step-badge reveal">10-Step Journey</span>
-      <h1 class="reveal">Building an AI Agent<br>Step by Step</h1>
-      <p class="subtitle reveal">From a simple LLM call to a full autonomous agent — every concept, every line of code, from scratch.</p>
+      <p class="reveal" style="font-family: var(--font-body); font-size: clamp(0.8rem, 1.5vw, 1rem); color: var(--text-secondary); margin-bottom: 0.5rem;">Ever want to know how AI agents (like Claude Code, OpenClaw, Hermes) work under the hood? Start by —</p>
+      <h1 class="reveal">Building Your own AI Agent<br>from Scratch!</h1>
+      <p class="subtitle reveal">Step by Step, from a simple LLM call to a full autonomous agent — every concept, every line of code, from scratch.</p>
       <div class="reveal" style="margin-top: 0.5rem; padding: 0.4em 1.2em; border: 1px solid var(--accent-cyan); border-radius: 6px; display: inline-block;">
         <span style="font-family: var(--font-body); font-size: clamp(1rem, 2.5vw, 1.4rem); font-weight: 500; color: var(--accent-cyan); letter-spacing: 0.05em;">Presenter: Zichao Yang</span>
       </div>
     </div>
     <div class="step-number reveal">00</div>
+  </section>
+
+  <!-- ===========================================
+       SLIDE 1B: PURPOSE + AGENDA
+       =========================================== -->
+  <section class="slide concept-slide">
+    <div class="slide-content">
+      <!-- Step label -->
+      <span class="step-label reveal">Why This Talk</span>
+
+      <!-- Purpose statement -->
+      <div class="reveal" style="text-align: left; margin: 0 auto clamp(0.75rem, 2vw, 1.5rem) auto; max-width: 900px;">
+        <p style="font-family: var(--font-mono); font-size: clamp(0.7rem, 1.2vw, 0.9rem); color: var(--accent-magenta); letter-spacing: 0.2em; text-transform: uppercase; margin: 0 0 0.5rem 0;">Purpose</p>
+        <p style="font-family: var(--font-display); font-size: clamp(1.3rem, 3vw, 2.2rem); font-weight: 700; color: var(--text-primary); line-height: 1.2; max-width: 32ch;">
+          Understand how AI agents work — <em style="color: var(--accent-cyan);">by building one from scratch in Python.</em>
+        </p>
+      </div>
+
+      <!-- Agenda: 3-column grid, items 2 & 3 wider -->
+      <div style="text-align: left; margin-bottom: clamp(0.3rem, 1vw, 0.5rem); max-width: 900px;">
+        <p style="font-family: var(--font-mono); font-size: clamp(0.7rem, 1.2vw, 0.9rem); color: var(--accent-magenta); letter-spacing: 0.2em; text-transform: uppercase; margin: 0;">Content Covered</p>
+      </div>
+      <div class="reveal" style="display: grid; grid-template-columns: 1fr 1.5fr 1.5fr; gap: clamp(0.5rem, 1.5vw, 1rem); max-width: 900px; margin: 0 auto; width: 100%; align-items: start;">
+
+        <!-- Item 1: What is an Agent? -->
+        <div class="agenda-card" style="background: var(--bg-card); border: 1px solid rgba(0,255,204,0.2); border-radius: 12px; padding: clamp(0.75rem, 2vw, 1.25rem); display: flex; flex-direction: column; gap: 0.5rem; position: relative; overflow: hidden;">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-family: var(--font-display); font-size: clamp(0.75rem, 1.5vw, 1.1rem); font-weight: 700; color: var(--accent-cyan); opacity: 0.2; line-height: 1;">01</span>
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan);"></span>
+          </div>
+          <div>
+            <p style="font-size: var(--body-size); color: var(--accent-cyan); font-weight: 700; margin: 0 0 0.3rem 0;">What is an Agent?</p>
+            <p style="font-size: var(--small-size); color: var(--text-secondary); margin: 0; line-height: 1.5;">From chatbots to autonomous workers — the key difference</p>
+          </div>
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent-cyan), transparent);"></div>
+        </div>
+
+        <!-- Item 2: Build from Scratch (wider) -->
+        <div class="agenda-card" style="background: var(--bg-card); border: 1px solid rgba(255,0,170,0.2); border-radius: 12px; padding: clamp(0.75rem, 2vw, 1.25rem); display: flex; flex-direction: column; gap: 0.5rem; position: relative; overflow: hidden;">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-family: var(--font-display); font-size: clamp(0.75rem, 1.5vw, 1.1rem); font-weight: 700; color: var(--accent-magenta); opacity: 0.2; line-height: 1;">02</span>
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-magenta); box-shadow: 0 0 8px var(--accent-magenta);"></span>
+          </div>
+          <div>
+            <p style="font-size: var(--body-size); color: var(--accent-magenta); font-weight: 700; margin: 0 0 0.3rem 0;">Build from Scratch</p>
+            <p style="font-size: var(--small-size); color: var(--text-secondary); margin: 0; line-height: 1.5;">Step-by-step through a working agent — pseudo code first, then live demos</p>
+          </div>
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent-magenta), transparent);"></div>
+        </div>
+
+        <!-- Item 3: The Real Picture (wider) -->
+        <div class="agenda-card" style="background: var(--bg-card); border: 1px solid rgba(67,97,238,0.25); border-radius: 12px; padding: clamp(0.75rem, 2vw, 1.25rem); display: flex; flex-direction: column; gap: 0.5rem; position: relative; overflow: hidden;">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-family: var(--font-display); font-size: clamp(0.75rem, 1.5vw, 1.1rem); font-weight: 700; color: #4361ee; opacity: 0.3; line-height: 1;">03</span>
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: #4361ee; box-shadow: 0 0 8px #4361ee;"></span>
+          </div>
+          <div>
+            <p style="font-size: var(--body-size); color: #a0b4ff; font-weight: 700; margin: 0 0 0.3rem 0;">The Real Picture</p>
+            <p style="font-size: var(--small-size); color: var(--text-secondary); margin: 0; line-height: 1.5;">Production gaps, industrial architectures, and what actually matters</p>
+          </div>
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #4361ee, transparent);"></div>
+        </div>
+
+      </div>
+
+      <!-- Goal tagline -->
+      <p class="reveal" style="font-family: var(--font-display); font-size: clamp(1rem, 2.2vw, 1.5rem); font-weight: 600; color: var(--text-primary); max-width: 550px; margin: clamp(0.75rem, 2vw, 1.5rem) auto 0 auto; text-align: center;">
+        Hope After this session, you'll know how to build your own <span style="color: var(--accent-cyan);">Claude Code</span>.
+      </p>
+    </div>
+    <div class="step-number reveal">00b</div>
   </section>
 
   <!-- ===========================================
@@ -600,18 +218,8 @@
         </div>
       </div>
 
-      <!-- Modern Examples + Vibe Check in 2 columns -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.4rem, 1.5vw, 0.8rem);">
-        <!-- Modern Examples -->
-        <div class="reveal">
-          <p style="font-size: var(--small-size); color: var(--accent-magenta); font-weight: 600; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.1em;">Modern Examples</p>
-          <div class="concept-card" style="padding: clamp(0.5rem, 1.5vw, 0.8rem);">
-            <p style="font-size: var(--small-size);"><strong style="color: var(--text-primary)">Claude Code / Aider</strong> — Terminal agents that edit files and run tests</p>
-            <p style="font-size: var(--small-size); margin-top: 0.3rem;"><strong style="color: var(--text-primary)">OpenAI Operator</strong> — Browser agent that books flights, fills forms</p>
-            <p style="font-size: var(--small-size); margin-top: 0.3rem;"><strong style="color: var(--text-primary)">Devin</strong> — Fully autonomous software engineer agent</p>
-            <p style="font-size: var(--small-size); margin-top: 0.3rem;"><strong style="color: var(--text-primary)">OpenClaw</strong> — Modular framework for custom agent stacks</p>
-          </div>
-        </div>
+      <!-- Modern Examples + Vibe Check — full width, below ingredients -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.4rem, 1.5vw, 0.8rem); width: 100%;">
 
         <!-- The Vibe Check -->
         <div class="reveal">
@@ -619,6 +227,33 @@
           <div class="concept-card" style="padding: clamp(0.5rem, 1.5vw, 0.8rem);">
             <p style="font-size: var(--small-size);"><strong style="color: var(--text-secondary);">Chatbot:</strong> <em>A smart book. You ask, it answers.</em></p>
             <p style="font-size: var(--small-size); margin-top: 0.4rem;"><strong style="color: var(--accent-cyan);">Agent:</strong> <em>A digital intern. You give a mission, it does the work and reports back.</em></p>
+          </div>
+        </div>
+
+        <!-- Modern Examples -->
+        <div class="reveal">
+          <p style="font-size: var(--small-size); color: var(--accent-magenta); font-weight: 600; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.1em;">Modern Examples</p>
+          <div class="concept-card" style="padding: clamp(0.5rem, 1.5vw, 0.8rem); column-gap: 0.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
+            <div>
+              <p style="font-size: var(--small-size); color: var(--accent-cyan); font-weight: 600;">Coding & Dev</p>
+              <p style="font-size: var(--small-size);">Claude Code, Codex</p>
+            </div>
+            <div>
+              <p style="font-size: var(--small-size); color: var(--accent-cyan); font-weight: 600;">Personal & OS</p>
+              <p style="font-size: var(--small-size);">OpenClaw, Hermes</p>
+            </div>
+            <div>
+              <p style="font-size: var(--small-size); color: var(--accent-cyan); font-weight: 600;">Browser Use</p>
+              <p style="font-size: var(--small-size);">OpenAI Operator, Skyvern</p>
+            </div>
+            <div>
+              <p style="font-size: var(--small-size); color: var(--accent-cyan); font-weight: 600;">Deep Research</p>
+              <p style="font-size: var(--small-size);">OpenAI Deep Research, Perplexity</p>
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <p style="font-size: var(--small-size); color: var(--accent-cyan); font-weight: 600;">Orchestration</p>
+              <p style="font-size: var(--small-size);">CrewAI, LangGraph</p>
+            </div>
           </div>
         </div>
       </div>
@@ -634,58 +269,217 @@
     <div class="slide-content">
       <span class="step-label reveal">Step 01</span>
       <h2 class="reveal">Hello, LLM</h2>
-      <p class="reveal" style="margin-bottom: 1rem;">The simplest possible interaction — one prompt in, one response out. No loop. No tools. No memory.</p>
-      <div class="code-block reveal">
-        <div class="code-header">
-          <span class="code-dot red"></span>
-          <span class="code-dot yellow"></span>
-          <span class="code-dot green"></span>
-          <span class="code-filename">step01_hello_llm.py</span>
+      <p class="reveal" style="margin-bottom: 0.5rem;">The simplest possible interaction — one prompt in, one response out. No loop. No tools. No memory. <span style="color: var(--accent-cyan);">Press ▶ to step through the data flow →</span></p>
+
+      <div style="display: grid; grid-template-columns: 3fr 2fr; gap: clamp(0.75rem, 2vw, 1.5rem); align-items: start;">
+        <!-- Left: Code with step indicators -->
+        <div class="code-block reveal" style="position: relative;">
+          <div class="code-header">
+            <span class="code-dot red"></span>
+            <span class="code-dot yellow"></span>
+            <span class="code-dot green"></span>
+            <span class="code-filename">step01_hello_llm.py</span>
+          </div>
+          <div class="code-body" id="flow-code-01">
+<pre id="flow01-line-0" class="flow-line">user_input = <span class="fn">input</span>(<span class="str">"Hello, I am Zichao"</span>)</pre>
+<pre id="flow01-line-1" class="flow-line" style="opacity: 0.3;">response = llm.<span class="fn">generate</span>(user_input)</pre>
+<pre id="flow01-line-2" class="flow-line" style="opacity: 0.3;"><span class="fn">print</span>(response)</pre>
+          </div>
         </div>
-        <div class="code-body">
-<pre><span class="kw">def</span> <span class="fn">run_agent</span>(prompt):
-    <span class="kw">return</span> llm.<span class="fn">generate</span>(prompt)</pre>
+
+        <!-- Right: Interactive Data Flow Viewer -->
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <p style="font-size: clamp(0.55rem, 0.8vw, 0.7rem); color: var(--accent-cyan); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin: 0;">Data Flow</p>
+          <!-- Step navigation -->
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <button id="flow01-prev" onclick="window.flowStep01(-1)" style="background: rgba(0,255,204,0.1); border: 1px solid rgba(0,255,204,0.4); color: var(--accent-cyan); border-radius: 6px; padding: 0.3rem 0.8rem; cursor: pointer; font-size: 1rem;">◀</button>
+            <span id="flow01-step-label" style="font-size: var(--small-size); color: var(--accent-cyan); min-width: 120px;">Step 0 / 2</span>
+            <button id="flow01-next" onclick="window.flowStep01(1)" style="background: rgba(0,255,204,0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 6px; padding: 0.3rem 0.8rem; cursor: pointer; font-size: 1rem;">▶</button>
+          </div>
+
+          <!-- Data flow cards -->
+          <div id="flow01-cards" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <!-- Card 1: User Input -->
+            <div id="flow01-card-1" class="flow-card" style="display: none; background: rgba(0,255,204,0.08); border: 1px solid rgba(0,255,204,0.4); border-radius: 10px; padding: 0.6rem; font-family: var(--font-mono); font-size: clamp(0.55rem, 0.85vw, 0.72rem);">
+              <p style="color: var(--accent-cyan); font-weight: 700; margin: 0 0 0.4rem 0; font-size: 0.65rem;">① USER INPUT</p>
+              <div style="color: #a5d6ff;">"Hello, I am Zichao"</div>
+              <div style="color: var(--text-secondary); margin-top: 0.3rem; font-size: 0.6rem;">Single prompt in</div>
+            </div>
+
+            <!-- Card 2: LLM Response -->
+            <div id="flow01-card-2" class="flow-card" style="display: none; background: rgba(0,255,204,0.08); border: 1px solid rgba(0,255,204,0.4); border-radius: 10px; padding: 0.6rem; font-family: var(--font-mono); font-size: clamp(0.55rem, 0.85vw, 0.72rem);">
+              <p style="color: var(--accent-cyan); font-weight: 700; margin: 0 0 0.4rem 0; font-size: 0.65rem;">② LLM OUTPUT</p>
+              <div style="color: #a5d6ff;">"Hello Zichao! Nice to meet you."</div>
+              <div style="color: var(--text-secondary); margin-top: 0.3rem; font-size: 0.6rem;">Done — program exits</div>
+            </div>
+          </div>
+
         </div>
       </div>
-      <p class="reveal" style="margin-top: 1rem; font-size: var(--small-size); color: var(--text-secondary);">Single <span style="color: var(--accent-cyan)">request → response</span>. Nothing more.</p>
+    </div>
+  </section>
+  <!-- ===========================================
+       SLIDE 3B: DEMO — STEP 01 HELLO LLM
+       =========================================== -->
+  <section class="slide" id="demo-01">
+    <div class="step-number reveal">03b</div>
+    <div class="slide-content" style="flex-direction: column; gap: 0.5rem;">
+      <span class="step-label reveal">Live Demo</span>
+      <h2 class="reveal" style="font-size: clamp(1rem, 2vw, 1.5rem);">Hello, LLM — Real Execution</h2>
+      <p class="reveal" style="font-size: var(--small-size); color: var(--text-secondary);">Running <strong style="color: var(--accent-cyan);">step01_hello_llm.py</strong> via local server. Single prompt, single response.</p>
+
+      <div class="reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.5rem, 1.5vw, 1rem); flex: 1; min-height: 0; align-items: stretch;">
+        <!-- Code Display -->
+        <div style="background: var(--bg-card); border: 1px solid rgba(0,255,204,0.2); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;">
+          <div style="background: rgba(0,0,0,0.4); padding: 0.4rem 0.75rem; border-bottom: 1px solid rgba(0,255,204,0.1); display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></span>
+            <span id="code-filename-01" style="font-size: 0.65rem; color: var(--text-secondary); margin-left: 0.5rem; font-family: var(--font-mono);">Loading...</span>
+          </div>
+          <pre id="code-display-01" style="padding: 0.6rem; margin: 0; font-family: var(--font-mono); font-size: clamp(0.55rem, 0.9vw, 0.75rem); color: #e0e0e0; overflow-y: auto; flex: 1; line-height: 1.5; white-space: pre;">Loading step01_hello_llm.py...</pre>
+        </div>
+
+        <!-- xterm.js Terminal -->
+        <div style="background: #0d0d12; border: 1px solid rgba(0,255,204,0.2); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;">
+          <div style="background: rgba(0,0,0,0.4); padding: 0.4rem 0.75rem; border-bottom: 1px solid rgba(0,255,204,0.1); display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></span>
+            <span style="font-size: 0.65rem; color: var(--text-secondary); margin-left: 0.5rem; font-family: var(--font-mono);">Terminal</span>
+            <button onclick="restartDemo('demo-01')" style="background: rgba(0,255,204,0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">↺ Restart</button>
+            <button onclick="stopDemo('demo-01')" style="background: rgba(255,0,170,0.15); color: var(--accent-magenta); border: 1px solid var(--accent-magenta); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">■ Stop</button>
+          </div>
+          <div id="terminal-container-01" style="flex: 1; overflow: hidden; padding: 0.5rem 0.5rem 0.5rem 1rem;"></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- ===========================================
-       SLIDE 4: STEP 02 — CHAT LOOP
-       =========================================== -->
   <section class="slide code-slide">
     <div class="step-number reveal">04</div>
     <div class="slide-content">
       <span class="step-label reveal">Step 02</span>
       <h2 class="reveal">Chat Loop — Memory Through History</h2>
-      <p class="reveal" style="margin-bottom: 1rem;">Add a <strong style="color: var(--text-primary)">loop</strong> and <strong style="color: var(--text-primary)">message history</strong> so the LLM remembers the conversation. <strong style="color: var(--accent-magenta);">This is how chatbots like ChatGPT work.</strong></p>
-      <div class="code-block reveal">
-        <div class="code-header">
-          <span class="code-dot red"></span>
-          <span class="code-dot yellow"></span>
-          <span class="code-dot green"></span>
-          <span class="code-filename">step02_chat_loop.py</span>
+      <p class="reveal" style="margin-bottom: 0.5rem;">Add a <strong style="color: var(--text-primary)">loop</strong> and <strong style="color: var(--text-primary)">message history</strong> so the LLM remembers. <strong style="color: var(--accent-magenta);">This is how chatbots like ChatGPT work.</strong></p>
+      <p class="reveal" style="font-size: var(--small-size); color: var(--text-secondary); margin-bottom: 0.5rem;">Key insight: <em style="color: var(--accent-cyan);">LLMs are stateless — each call is a brand new session. Memory is created by sending all chat history with every request.</em></p>
+      <p class="reveal" style="color: var(--accent-cyan); font-size: var(--small-size);">Press ▶ to step through →</p>
+
+      <div style="display: grid; grid-template-columns: 3fr 2fr; gap: clamp(0.75rem, 2vw, 1.5rem); align-items: start;">
+        <!-- Left: Code with step indicators -->
+        <div class="code-block reveal" style="position: relative;">
+          <div class="code-header">
+            <span class="code-dot red"></span>
+            <span class="code-dot yellow"></span>
+            <span class="code-dot green"></span>
+            <span class="code-filename">step02_chat_loop.py</span>
+          </div>
+          <div class="code-body" id="flow-code-02">
+<pre id="flow02-line-0" class="flow-line">messages = []</pre>
+<pre id="flow02-line-1" class="flow-line"><span class="kw">while</span> <span class="num">True</span>:</pre>
+<pre id="flow02-line-2" class="flow-line">    user_input = <span class="fn">input</span>(<span class="str">"You: "</span>)</pre>
+<pre id="flow02-line-3" class="flow-line">    messages.<span class="fn">append</span>(user_input)</pre>
+<pre id="flow02-line-4" class="flow-line" style="opacity: 0.3;">    response = llm.<span class="fn">generate</span>(messages)</pre>
+<pre id="flow02-line-5" class="flow-line" style="opacity: 0.3;">    messages.<span class="fn">append</span>(response)</pre>
+<pre id="flow02-line-6" class="flow-line" style="opacity: 0.3;">    <span class="fn">print</span>(<span class="str">"Agent:"</span>, response.text)</pre>
+          </div>
         </div>
-        <div class="code-body">
-<pre>messages = []
 
-<span class="kw">while</span> <span class="num">True</span>:
-    user_input = <span class="fn">input</span>(<span class="str">"You: "</span>)
-    messages.<span class="fn">append</span>(user_input)
+        <!-- Right: Interactive Data Flow Viewer -->
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <p style="font-size: clamp(0.55rem, 0.8vw, 0.7rem); color: var(--accent-cyan); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin: 0;">Data Flow</p>
+          <!-- Step navigation -->
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <button id="flow02-prev" onclick="window.flowStep02(-1)" style="background: rgba(0,255,204,0.1); border: 1px solid rgba(0,255,204,0.4); color: var(--accent-cyan); border-radius: 6px; padding: 0.3rem 0.8rem; cursor: pointer; font-size: 1rem;">◀</button>
+            <span id="flow02-step-label" style="font-size: var(--small-size); color: var(--accent-cyan); min-width: 120px;">Step 0 / 2</span>
+            <button id="flow02-next" onclick="window.flowStep02(1)" style="background: rgba(0,255,204,0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 6px; padding: 0.3rem 0.8rem; cursor: pointer; font-size: 1rem;">▶</button>
+          </div>
 
-    response = llm.<span class="fn">generate</span>(messages)
-    messages.<span class="fn">append</span>(response)
-    <span class="kw">print</span>(<span class="str">"Agent:"</span>, response.text)</pre>
+          <!-- Data flow cards -->
+          <div id="flow02-cards" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <!-- Card 1: SENT + RECEIVED -->
+            <div id="flow02-card-1" class="flow-card" style="display: none; background: rgba(0,255,204,0.08); border: 1px solid rgba(0,255,204,0.4); border-radius: 10px; padding: 0.6rem; font-family: var(--font-mono); font-size: clamp(0.55rem, 0.85vw, 0.72rem);">
+              <p style="color: var(--accent-cyan); font-weight: 700; margin: 0 0 0.4rem 0; font-size: 0.65rem;">Step 1</p>
+              <div style="color: var(--text-secondary); font-size: 0.6rem; margin-bottom: 0.2rem;">SENT:</div>
+              <div style="color: #4ec9b0;">{ role: "user", content: "Hi, I am Zichao" }</div>
+              <div style="color: var(--text-secondary); font-size: 0.6rem; margin: 0.3rem 0 0.2rem 0;">RECEIVED:</div>
+              <div style="color: #a5d6ff;">{ role: "assistant", content: "Hello! Zichao!" }</div>
+            </div>
+
+            <!-- Card 2: SENT + RECEIVED with history -->
+            <div id="flow02-card-2" class="flow-card" style="display: none; background: rgba(67,97,238,0.1); border: 1px solid rgba(67,97,238,0.4); border-radius: 10px; padding: 0.6rem; font-family: var(--font-mono); font-size: clamp(0.55rem, 0.85vw, 0.72rem);">
+              <p style="color: #4361ee; font-weight: 700; margin: 0 0 0.4rem 0; font-size: 0.65rem;">Step 2 (+1 turn)</p>
+              <div style="color: var(--text-secondary); font-size: 0.6rem; margin-bottom: 0.2rem;">SENT (full history):</div>
+              <div style="color: #c586c0;">messages: [</div>
+              <div style="padding-left: 0.75rem; color: #4ec9b0;">{ role: "user", content: "Hi I am Zichao" },        ← Turn 1</div>
+              <div style="padding-left: 0.75rem; color: #4ec9b0;">{ role: "assistant", content: "Hello! Zichao!" }, ← Turn 1</div>
+              <div style="padding-left: 0.75rem; color: #4ec9b0;">{ role: "user", content: "What is my name?" } ← Turn 2 (NEW)</div>
+              <div style="color: #c586c0;">]</div>
+              <div style="color: var(--text-secondary); font-size: 0.6rem; margin: 0.3rem 0 0.2rem 0;">RECEIVED:</div>
+              <div style="color: #a5d6ff;">{ role: "assistant", content: "You are Zichao" }</div>
+            </div>
+          </div>
+
+          <!-- Comparison: Without Loop vs With Loop -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.25rem;">
+            <div style="background: var(--bg-card); border: 1px solid rgba(0,255,204,0.15); border-radius: 10px; padding: clamp(0.4rem, 1vw, 0.7rem);">
+              <p style="font-size: clamp(0.55rem, 0.8vw, 0.7rem); color: var(--accent-cyan); font-weight: 600; margin-bottom: 0.3rem;">Without Loop (Step 01)</p>
+              <p style="font-size: clamp(0.5rem, 0.75vw, 0.65rem); color: var(--text-secondary);">LLM is stateless — no memory</p>
+              <div style="margin: 0.3rem 0; padding: 0.3rem; background: rgba(0,0,0,0.3); border-radius: 4px; font-family: var(--font-mono); font-size: clamp(0.5rem, 0.75vw, 0.65rem); color: #a5d6ff;">"What is my name?" → "?"</div>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid rgba(255,0,170,0.3); border-radius: 10px; padding: clamp(0.4rem, 1vw, 0.7rem);">
+              <p style="font-size: clamp(0.55rem, 0.8vw, 0.7rem); color: var(--accent-magenta); font-weight: 600; margin-bottom: 0.3rem;">With Loop (Step 02)</p>
+              <p style="font-size: clamp(0.5rem, 0.75vw, 0.65rem); color: var(--text-secondary);">messages[] grows with turns</p>
+              <div style="margin: 0.3rem 0; padding: 0.3rem; background: rgba(0,0,0,0.3); border-radius: 4px; font-family: var(--font-mono); font-size: clamp(0.5rem, 0.75vw, 0.65rem);">
+                <div style="color: #4ec9b0;">Turn 1: "I am Zichao"</div>
+                <div style="color: #4ec9b0;">Turn 2: "What is my name?"</div>
+                <div style="color: #a5d6ff;">→ "Zichao"</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <p class="reveal" style="margin-top: 1rem; font-size: var(--small-size); color: var(--text-secondary);">Each turn: <span style="color: var(--accent-cyan)">append user</span> → <span style="color: var(--accent-cyan)">call LLM</span> → <span style="color: var(--accent-cyan)">append reply</span>. History grows, context deepens.</p>
     </div>
   </section>
 
   <!-- ===========================================
-       SLIDE 5: STEP 03 — TOOL USE
+       SLIDE 4B: DEMO — STEP 02 CHAT LOOP
        =========================================== -->
+  <section class="slide" id="demo-02">
+    <div class="step-number reveal">04b</div>
+    <div class="slide-content" style="flex-direction: column; gap: 0.5rem;">
+      <span class="step-label reveal">Live Demo</span>
+      <h2 class="reveal" style="font-size: clamp(1rem, 2vw, 1.5rem);">Chat Loop — Multi-Turn Memory</h2>
+      <p class="reveal" style="font-size: var(--small-size); color: var(--text-secondary);">Running <strong style="color: var(--accent-cyan);">step02_chat_loop.py</strong> via local server. Try: "My name is Zichao" then "What is my name?"</p>
+
+      <div class="reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.5rem, 1.5vw, 1rem); flex: 1; min-height: 0; align-items: stretch;">
+        <!-- Code Display -->
+        <div style="background: var(--bg-card); border: 1px solid rgba(0,255,204,0.2); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;">
+          <div style="background: rgba(0,0,0,0.4); padding: 0.4rem 0.75rem; border-bottom: 1px solid rgba(0,255,204,0.1); display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></span>
+            <span id="code-filename-02" style="font-size: 0.65rem; color: var(--text-secondary); margin-left: 0.5rem; font-family: var(--font-mono);">Loading...</span>
+          </div>
+          <pre id="code-display-02" style="padding: 0.6rem; margin: 0; font-family: var(--font-mono); font-size: clamp(0.55rem, 0.9vw, 0.75rem); color: #e0e0e0; overflow-y: auto; flex: 1; line-height: 1.5; white-space: pre;">Loading step02_chat_loop.py...</pre>
+        </div>
+
+        <!-- xterm.js Terminal -->
+        <div style="background: #0d0d12; border: 1px solid rgba(0,255,204,0.2); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;">
+          <div style="background: rgba(0,0,0,0.4); padding: 0.4rem 0.75rem; border-bottom: 1px solid rgba(0,255,204,0.1); display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></span>
+            <span style="font-size: 0.65rem; color: var(--text-secondary); margin-left: 0.5rem; font-family: var(--font-mono);">Terminal</span>
+            <button onclick="restartDemo('demo-02')" style="background: rgba(0,255,204,0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">↺ Restart</button>
+            <button onclick="stopDemo('demo-02')" style="background: rgba(255,0,170,0.15); color: var(--accent-magenta); border: 1px solid var(--accent-magenta); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">■ Stop</button>
+          </div>
+          <div id="terminal-container-02" style="flex: 1; overflow: hidden; padding: 0.5rem 0.5rem 0.5rem 1rem;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="slide code-slide" id="slide-05">
     <div class="step-number reveal">05</div>
     <div class="slide-content">
@@ -708,12 +502,12 @@
 <pre id="flow-line-2" class="flow-line">system_message = {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"You have access to: run_bash"</span>}</pre>
 <pre id="flow-line-3" class="flow-line">user_message = {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: user_input}</pre>
 <pre id="flow-line-4" class="flow-line">messages = [system_message, user_message]</pre>
-<pre id="flow-line-5" class="flow-line" style="opacity: 0.3;">response = llm.<span class="fn">generate</span>(messages, tools=tools)</pre>
-<pre id="flow-line-6" class="flow-line" style="opacity: 0.3;"><span class="kw">if</span> response.tool_calls:</pre>
-<pre id="flow-line-7" class="flow-line" style="opacity: 0.3;">    result = <span class="fn">run_bash</span>(...)</pre>
-<pre id="flow-line-8" class="flow-line" style="opacity: 0.3;">messages.append({role:"tool", content: result})</pre>
-<pre id="flow-line-9" class="flow-line" style="opacity: 0.3;">response = llm.<span class="fn">generate</span>(messages)</pre>
-<pre id="flow-line-10" class="flow-line" style="opacity: 0.3;"><span class="kw">print</span>(<span class="str">"Agent:"</span>, response.text)</pre>
+<pre id="flow-line-5" class="flow-line" data-dim style="opacity: 0.3;">response = llm.<span class="fn">generate</span>(messages, tools=tools)</pre>
+<pre id="flow-line-6" class="flow-line" data-dim style="opacity: 0.3;"><span class="kw">if</span> response.tool_calls:</pre>
+<pre id="flow-line-7" class="flow-line" data-dim style="opacity: 0.3;">    result = <span class="fn">run_bash</span>(...)</pre>
+<pre id="flow-line-8" class="flow-line" data-dim style="opacity: 0.3;">messages.append({role:"tool", content: result})</pre>
+<pre id="flow-line-9" class="flow-line" data-dim style="opacity: 0.3;">response = llm.<span class="fn">generate</span>(messages)</pre>
+<pre id="flow-line-10" class="flow-line" data-dim style="opacity: 0.3;"><span class="kw">print</span>(<span class="str">"Agent:"</span>, response.text)</pre>
           </div>
         </div>
 
@@ -722,9 +516,9 @@
           <p style="font-size: clamp(0.55rem, 0.8vw, 0.7rem); color: var(--accent-cyan); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin: 0;">Data Flow</p>
           <!-- Step navigation -->
           <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <button id="flow-prev" onclick="flowStep(-1)" style="background: rgba(0,255,204,0.1); border: 1px solid rgba(0,255,204,0.4); color: var(--accent-cyan); border-radius: 6px; padding: 0.3rem 0.8rem; cursor: pointer; font-size: 1rem;">◀</button>
+            <button id="flow-prev" onclick="window.flowStep(-1)" style="background: rgba(0,255,204,0.1); border: 1px solid rgba(0,255,204,0.4); color: var(--accent-cyan); border-radius: 6px; padding: 0.3rem 0.8rem; cursor: pointer; font-size: 1rem;">◀</button>
             <span id="flow-step-label" style="font-size: var(--small-size); color: var(--accent-cyan); min-width: 120px;">Step 0 / 3</span>
-            <button id="flow-next" onclick="flowStep(1)" style="background: rgba(0,255,204,0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 6px; padding: 0.3rem 0.8rem; cursor: pointer; font-size: 1rem;">▶</button>
+            <button id="flow-next" onclick="window.flowStep(1)" style="background: rgba(0,255,204,0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 6px; padding: 0.3rem 0.8rem; cursor: pointer; font-size: 1rem;">▶</button>
           </div>
 
           <!-- Data flow cards -->
@@ -793,40 +587,44 @@
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+  <script src="/static/js/slides-data.js"></script>
+  <script src="/static/js/recap.js"></script>
+  <script src="/static/js/flow-stepper.js"></script>
+  <script src="/static/js/terminal.js"></script>
   <style>
     /* Override Prism's dark text on dark background — make everything readable */
-    #code-display { color: #e0e0e0 !important; }
-    #code-display .token { color: inherit !important; }
+    #code-display, #code-display-01, #code-display-02 { color: #e0e0e0 !important; }
+    #code-display .token, #code-display-01 .token, #code-display-02 .token { color: inherit !important; }
     /* Keep syntax colors readable on dark bg */
-    #code-display .token.comment,
-    #code-display .token.prolog,
-    #code-display .token.doctype,
-    #code-display .token.cdata { color: #7a7a7a !important; }
-    #code-display .token.punctuation { color: #c0c0c0 !important; }
-    #code-display .token.property,
-    #code-display .token.tag,
-    #code-display .token.boolean,
-    #code-display .token.number,
-    #code-display .token.constant,
-    #code-display .token.symbol { color: #e5a86a !important; }
-    #code-display .token.selector,
-    #code-display .token.attr-name,
-    #code-display .token.string,
-    #code-display .token.char,
-    #code-display .token.builtin { color: #a8e6a2 !important; }
-    #code-display .token.operator,
-    #code-display .token.entity,
-    #code-display .token.url,
-    #code-display .token.variable { color: #e0e0e0 !important; }
-    #code-display .token.atrule,
-    #code-display .token.attr-value,
-    #code-display .token.function { color: #79b8ff !important; }
-    #code-display .token.keyword { color: #f78c6c !important; }
-    #code-display .token.regex,
-    #code-display .token.important { color: #ffab70 !important; }
+    #code-display .token.comment, #code-display-01 .token.comment, #code-display-02 .token.comment,
+    #code-display .token.prolog, #code-display-01 .token.prolog, #code-display-02 .token.prolog,
+    #code-display .token.doctype, #code-display-01 .token.doctype, #code-display-02 .token.doctype,
+    #code-display .token.cdata, #code-display-01 .token.cdata, #code-display-02 .token.cdata { color: #7a7a7a !important; }
+    #code-display .token.punctuation, #code-display-01 .token.punctuation, #code-display-02 .token.punctuation { color: #c0c0c0 !important; }
+    #code-display .token.property, #code-display-01 .token.property, #code-display-02 .token.property,
+    #code-display .token.tag, #code-display-01 .token.tag, #code-display-02 .token.tag,
+    #code-display .token.boolean, #code-display-01 .token.boolean, #code-display-02 .token.boolean,
+    #code-display .token.number, #code-display-01 .token.number, #code-display-02 .token.number,
+    #code-display .token.constant, #code-display-01 .token.constant, #code-display-02 .token.constant,
+    #code-display .token.symbol, #code-display-01 .token.symbol, #code-display-02 .token.symbol { color: #e5a86a !important; }
+    #code-display .token.selector, #code-display-01 .token.selector, #code-display-02 .token.selector,
+    #code-display .token.attr-name, #code-display-01 .token.attr-name, #code-display-02 .token.attr-name,
+    #code-display .token.string, #code-display-01 .token.string, #code-display-02 .token.string,
+    #code-display .token.char, #code-display-01 .token.char, #code-display-02 .token.char,
+    #code-display .token.builtin, #code-display-01 .token.builtin, #code-display-02 .token.builtin { color: #a8e6a2 !important; }
+    #code-display .token.operator, #code-display-01 .token.operator, #code-display-02 .token.operator,
+    #code-display .token.entity, #code-display-01 .token.entity, #code-display-02 .token.entity,
+    #code-display .token.url, #code-display-01 .token.url, #code-display-02 .token.url,
+    #code-display .token.variable, #code-display-01 .token.variable, #code-display-02 .token.variable { color: #e0e0e0 !important; }
+    #code-display .token.atrule, #code-display-01 .token.atrule, #code-display-02 .token.atrule,
+    #code-display .token.attr-value, #code-display-01 .token.attr-value, #code-display-02 .token.attr-value,
+    #code-display .token.function, #code-display-01 .token.function, #code-display-02 .token.function { color: #79b8ff !important; }
+    #code-display .token.keyword, #code-display-01 .token.keyword, #code-display-02 .token.keyword { color: #f78c6c !important; }
+    #code-display .token.regex, #code-display-01 .token.regex, #code-display-02 .token.regex,
+    #code-display .token.important, #code-display-01 .token.important, #code-display-02 .token.important { color: #ffab70 !important; }
   </style>
 
-  <section class="slide" id="demo-slide">
+  <section class="slide" id="demo-03">
     <div class="step-number reveal">05b</div>
     <div class="slide-content" style="flex-direction: column; gap: 0.5rem;">
       <span class="step-label reveal">Live Demo</span>
@@ -854,7 +652,7 @@
             <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></span>
             <span style="font-size: 0.65rem; color: var(--text-secondary); margin-left: 0.5rem; font-family: var(--font-mono);">Terminal</span>
             <button id="restart-btn" onclick="restartDemo()" style="background: rgba(0,255,204,0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">↺ Restart</button>
-            <button id="stop-btn" onclick="stopDemo()" style="background: rgba(255,0,170,0.15); color: var(--accent-magenta); border: 1px solid var(--accent-magenta); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">■ Stop</button>
+            <button id="stop-btn" onclick="stopDemo('demo-03')" style="background: rgba(255,0,170,0.15); color: var(--accent-magenta); border: 1px solid var(--accent-magenta); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">■ Stop</button>
           </div>
           <div id="terminal-container" style="flex: 1; overflow: hidden; padding: 0.5rem 0.5rem 0.5rem 1rem;"></div>
         </div>
@@ -864,207 +662,17 @@
 
   <script>
     /* ===========================================
-       SLIDE 05: Interactive Data Flow Stepper
+       Initialize flowSteppers using shared module
        =========================================== */
-    let flowStep = (function() {
-      let current = 0;
-
-      // Each step: { lines: [lineIdxs], card: cardIdx or null }
-      const steps = [
-        // Step 0: initial state — no highlights, no cards
-        null,
-        // Step 1: Request to LLM
-        { lines: [0,1,2,3,4,5], card: 1 },
-        // Step 2: Tool Call detected → execute
-        { lines: [5,6,7], card: 2 },
-        // Step 3: Final Response
-        { lines: [7,8,9,10], card: 3 },
-      ];
-
-      function update() {
-        const step = steps[current];
-
-        // Clear all highlights, dim all lines
-        document.querySelectorAll('.flow-line').forEach(el => {
-          el.classList.remove('active');
-        });
-
-        // Hide all cards
-        for (let i = 1; i <= 3; i++) {
-          const card = document.getElementById('flow-card-' + i);
-          if (card) card.style.display = 'none';
-        }
-
-        // Apply current step
-        if (step) {
-          step.lines.forEach(idx => {
-            const el = document.getElementById('flow-line-' + idx);
-            if (el) el.classList.add('active');
-          });
-          if (step.card) {
-            const card = document.getElementById('flow-card-' + step.card);
-            if (card) card.style.display = 'block';
-          }
-        }
-
-        // Update label
-        const label = document.getElementById('flow-step-label');
-        if (label) label.textContent = 'Step ' + current + ' / 3';
-
-        // Update buttons
-        const prevBtn = document.getElementById('flow-prev');
-        const nextBtn = document.getElementById('flow-next');
-        if (prevBtn) prevBtn.style.opacity = current === 0 ? '0.3' : '1';
-        if (nextBtn) nextBtn.style.opacity = current === 3 ? '0.3' : '1';
-      }
-
-      return function(direction) {
-        const next = current + direction;
-        if (next < 0 || next > 3) return;
-        current = next;
-        update();
-      };
-    })();
-  </script>
-
-  <script>
-    const SCRIPT_NAME = "step03_tool_use.py";
-    let term = null;
-    let ws = null;
-
-    async function loadCode() {
-      try {
-        const resp = await fetch("/step/" + SCRIPT_NAME);
-        if (!resp.ok) throw new Error("not found");
-        const code = await resp.text();
-        document.getElementById("code-filename").textContent = SCRIPT_NAME;
-        // Use Prism (synchronous, loaded in <head>) for Python highlighting
-        const pre = document.getElementById("code-display");
-        pre.innerHTML = Prism.highlight(code, Prism.languages.python, "python");
-      } catch (e) {
-        document.getElementById("code-display").textContent = "Error loading code: " + e.message + "\n\nMake sure the server is running:\n  cd demo-server\n  pip install fastapi uvicorn websockets\n  uvicorn server:app --reload";
-      }
-    }
-
-    function startTerminal() {
-      if (term) {
-        term.dispose();
-      }
-      if (ws) {
-        ws.close();
-      }
-
-      term = new Terminal({
-        cursorBlink: true,
-        fontFamily: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', Menlo, monospace",
-        fontSize: 13,
-        theme: {
-          background: "#0d0d12",
-          foreground: "#00ff9d",
-          cursor: "#00ff9d",
-          selection: "rgba(0,255,204,0.3)",
-        },
-        scrollback: 1000,
-      });
-
-      const fitAddon = new FitAddon.FitAddon();
-      term.loadAddon(fitAddon);
-      term.open(document.getElementById("terminal-container"));
-      fitAddon.fit();
-
-      ws = new WebSocket("ws://" + location.host + "/ws/" + SCRIPT_NAME);
-
-      ws.onopen = () => {
-        term.focus();
-      };
-
-      ws.onmessage = (e) => {
-        term.write(e.data.replace(/\n/g, "\r\n"));
-        fitAddon.fit(); // recalculate viewport after output
-      };
-
-      ws.onclose = () => {
-        term.write("\r\n\r\n[Disconnected — click Restart to run again]");
-      };
-
-      ws.onerror = () => {
-        term.write("\r\n[WebSocket error — is the server running?]");
-      };
-
-      // xterm.js → line buffer → server (piped stdin has no line editing)
-      // JavaScript handles: local echo, backspace, enter-to-send
-      let lineBuf = "";
-
-      term.onData((data) => {
-        if (ws && ws.readyState === WebSocket.OPEN) {
-          const code = data.charCodeAt(0);
-
-          if (code === 127 || code === 8) {
-            // Backspace (DEL=127 or BS=8): erase last char from display + buffer
-            if (lineBuf.length > 0) {
-              lineBuf = lineBuf.slice(0, -1);
-              term.write("\b \b");  // move cursor back, write blank, move back again
-            }
-          } else if (code === 13) {
-            // Enter: send line to server, newline to display
-            term.write("\n");
-            ws.send(lineBuf + "\n");
-            lineBuf = "";
-          } else if (code >= 32 || code === 9) {
-            // Printable or tab: echo + buffer
-            term.write(data);
-            lineBuf += data;
-          }
-          // Ignore other control chars (Ctrl+C etc pass through)
-        }
-      });
-
-      // Ensure clicks anywhere in the terminal container focus xterm
-      const container = document.getElementById("terminal-container");
-      container.addEventListener("click", () => {
-        term.focus();
-      });
-      container.style.cursor = "text";
-
-      // Refit on window resize
-      window.addEventListener("resize", () => fitAddon.fit());
-    }
-
-    function stopDemo() {
-      if (ws) {
-        ws.send("\x03"); // Ctrl+C
-        ws.close();
-      }
-      if (term) {
-        term.write("\r\n[Stopped]\r\n");
-      }
-    }
-
-    function restartDemo() {
-      demoStarted = false;
-      startTerminal();
-    }
-
-    // Initialize when demo slide becomes visible
-    let demoStarted = false;
-    const demoObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !demoStarted) {
-          demoStarted = true;
-          loadCode();
-          startTerminal();
-        } else if (!entry.isIntersecting && demoStarted) {
-          // Scrolled away — stop the demo
-          stopDemo();
-          demoStarted = false;
-        }
-      });
-    }, { threshold: 0.5 });
-
-    const demoSlide = document.getElementById("demo-slide");
-    if (demoSlide) {
-      demoObserver.observe(demoSlide);
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM ready, creating flowSteppers...');
+      window.flowStep01 = createFlowStepper('step-01');
+      window.flowStep02 = createFlowStepper('step-02');
+      window.flowStep = createFlowStepper('step-03');
+      console.log('flowStep01:', window.flowStep01);
+      console.log('flowStep02:', window.flowStep02);
+      console.log('flowStep:', window.flowStep);
+    });
   </script>
 
   <!-- ===========================================
@@ -1109,6 +717,45 @@
   </section>
 
   <!-- ===========================================
+       SLIDE 6B: DEMO — STEP 04 AGENT LOOP
+       =========================================== -->
+  <section class="slide" id="demo-04">
+    <div class="step-number reveal">06b</div>
+    <div class="slide-content" style="flex-direction: column; gap: 0.5rem;">
+      <span class="step-label reveal">Live Demo</span>
+      <h2 class="reveal" style="font-size: clamp(1rem, 2vw, 1.5rem);">Agent Loop — Nested Autonomy</h2>
+      <p class="reveal" style="font-size: var(--small-size); color: var(--text-secondary);">Running <strong style="color: var(--accent-cyan);">step04_agent_loop.py</strong>. Watch the outer loop (human turns) and inner loop (agent autonomy) work together.</p>
+      <p class="reveal" style="font-size: var(--small-size); color: var(--text-secondary);">Or run manually: <code style="color: var(--accent-cyan);">python3 step04_agent_loop.py</code> in your terminal.</p>
+
+      <div class="reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.5rem, 1.5vw, 1rem); flex: 1; min-height: 0; align-items: stretch;">
+        <!-- Code Display -->
+        <div style="background: var(--bg-card); border: 1px solid rgba(0,255,204,0.2); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;">
+          <div style="background: rgba(0,0,0,0.4); padding: 0.4rem 0.75rem; border-bottom: 1px solid rgba(0,255,204,0.1); display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></span>
+            <span id="code-filename-04" style="font-size: 0.65rem; color: var(--text-secondary); margin-left: 0.5rem; font-family: var(--font-mono);">Loading...</span>
+          </div>
+          <pre id="code-display-04" style="padding: 0.6rem; margin: 0; font-family: var(--font-mono); font-size: clamp(0.55rem, 0.9vw, 0.75rem); color: #e0e0e0; overflow-y: auto; flex: 1; line-height: 1.5; white-space: pre;">Loading step04_agent_loop.py...</pre>
+        </div>
+
+        <!-- xterm.js Terminal -->
+        <div style="background: #0d0d12; border: 1px solid rgba(0,255,204,0.2); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;">
+          <div style="background: rgba(0,0,0,0.4); padding: 0.4rem 0.75rem; border-bottom: 1px solid rgba(0,255,204,0.1); display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></span>
+            <span style="font-size: 0.65rem; color: var(--text-secondary); margin-left: 0.5rem; font-family: var(--font-mono);">Terminal</span>
+            <button onclick="restartDemo('demo-04')" style="background: rgba(0,255,204,0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">↺ Restart</button>
+            <button onclick="stopDemo('demo-04')" style="background: rgba(255,0,170,0.15); color: var(--accent-magenta); border: 1px solid var(--accent-magenta); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">■ Stop</button>
+          </div>
+          <div id="terminal-container-04" style="flex: 1; overflow: hidden; padding: 0.5rem 0.5rem 0.5rem 1rem;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================================
        SLIDE 7: STEP 05 & 06 — PLANNING & MEMORY
        =========================================== -->
   <section class="slide code-slide">
@@ -1125,19 +772,106 @@
           <span class="code-filename">step05_planning.py + step06_memory.py</span>
         </div>
         <div class="code-body">
-<pre>state = {<span class="str">"todos"</span>: [], <span class="str">"memory"</span>: <span class="str">""</span>}
+<pre>todos = []  <span class="cmt"># Planning: The agent's active roadmap</span>
+<span class="cmt"># memory = read_file("memory.txt")  # Memory: Load long-term context from disk</span>
 
-<span class="kw">while</span> <span class="num">True</span>: <span class="cmt"># Inner Agent Loop</span>
-    context = messages + [<span class="str">f"State: {state}"</span>]
-    response = llm.<span class="fn">generate</span>(context, tools=[add_todo])
+tools = [<span class="str">"update_todo"</span>, <span class="str">"run_bash"</span>]
+
+<span class="kw">while</span> <span class="num">True</span>:  <span class="cmt"># Inner Agent Loop</span>
+    <span class="cmt"># 1. Perception: Combine history with current Plan</span>
+    context = messages + [<span class="str">f"Current Plan: {todos}"</span>]
+    response = llm.<span class="fn">generate</span>(context, tools=tools)
 
     <span class="kw">if</span> response.tool_calls:
+        <span class="cmt"># 2. Action: Execute the tool</span>
         result = <span class="fn">execute</span>(response.tool_calls)
-        state = <span class="fn">update_state</span>(state, result)
+
+        <span class="cmt"># 3. Planning Update: LLM modifies the roadmap based on result</span>
+        todos = <span class="fn">update_todos</span>(todos, result)
+
+        <span class="cmt"># save_file("memory.txt", todos) # Memory: Persist state to disk</span>
         <span class="kw">continue</span></pre>
         </div>
       </div>
       <p class="reveal" style="margin-top: 1rem; font-size: var(--small-size); color: var(--text-secondary);">Model sees its <span style="color: var(--accent-cyan)">own todo state</span> and updates progressively. Memory survives program restart.</p>
+    </div>
+  </section>
+
+  <!-- ===========================================
+       SLIDE 7B: DEMO — STEP 05 PLANNING
+       =========================================== -->
+  <section class="slide" id="demo-05">
+    <div class="step-number reveal">07b</div>
+    <div class="slide-content" style="flex-direction: column; gap: 0.5rem;">
+      <span class="step-label reveal">Live Demo</span>
+      <h2 class="reveal" style="font-size: clamp(1rem, 2vw, 1.5rem);">Planning — Todo State Management</h2>
+      <p class="reveal" style="font-size: var(--small-size); color: var(--text-secondary);">Running <strong style="color: var(--accent-cyan);">step05_planning.py</strong>. Agent maintains a todo list and updates progressively.</p>
+      <p class="reveal" style="font-size: var(--small-size); color: var(--text-secondary);">Or run manually: <code style="color: var(--accent-cyan);">python3 step05_planning.py</code> in your terminal.</p>
+
+      <div class="reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.5rem, 1.5vw, 1rem); flex: 1; min-height: 0; align-items: stretch;">
+        <!-- Code Display -->
+        <div style="background: var(--bg-card); border: 1px solid rgba(0,255,204,0.2); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;">
+          <div style="background: rgba(0,0,0,0.4); padding: 0.4rem 0.75rem; border-bottom: 1px solid rgba(0,255,204,0.1); display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></span>
+            <span id="code-filename-05" style="font-size: 0.65rem; color: var(--text-secondary); margin-left: 0.5rem; font-family: var(--font-mono);">Loading...</span>
+          </div>
+          <pre id="code-display-05" style="padding: 0.6rem; margin: 0; font-family: var(--font-mono); font-size: clamp(0.55rem, 0.9vw, 0.75rem); color: #e0e0e0; overflow-y: auto; flex: 1; line-height: 1.5; white-space: pre;">Loading step05_planning.py...</pre>
+        </div>
+
+        <!-- xterm.js Terminal -->
+        <div style="background: #0d0d12; border: 1px solid rgba(0,255,204,0.2); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;">
+          <div style="background: rgba(0,0,0,0.4); padding: 0.4rem 0.75rem; border-bottom: 1px solid rgba(0,255,204,0.1); display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></span>
+            <span style="font-size: 0.65rem; color: var(--text-secondary); margin-left: 0.5rem; font-family: var(--font-mono);">Terminal</span>
+            <button onclick="restartDemo('demo-05')" style="background: rgba(0,255,204,0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">↺ Restart</button>
+            <button onclick="stopDemo('demo-05')" style="background: rgba(255,0,170,0.15); color: var(--accent-magenta); border: 1px solid var(--accent-magenta); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">■ Stop</button>
+          </div>
+          <div id="terminal-container-05" style="flex: 1; overflow: hidden; padding: 0.5rem 0.5rem 0.5rem 1rem;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================================
+       SLIDE 7C: DEMO — STEP 06 MEMORY
+       =========================================== -->
+  <section class="slide" id="demo-06">
+    <div class="step-number reveal">07c</div>
+    <div class="slide-content" style="flex-direction: column; gap: 0.5rem;">
+      <span class="step-label reveal">Live Demo</span>
+      <h2 class="reveal" style="font-size: clamp(1rem, 2vw, 1.5rem);">Memory — File-Based Persistence</h2>
+      <p class="reveal" style="font-size: var(--small-size); color: var(--text-secondary);">Running <strong style="color: var(--accent-cyan);">step06_memory.py</strong>. Memory persists across sessions by reading/writing a file.</p>
+      <p class="reveal" style="font-size: var(--small-size); color: var(--text-secondary);">Or run manually: <code style="color: var(--accent-cyan);">python3 step06_memory.py</code> in your terminal.</p>
+
+      <div class="reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.5rem, 1.5vw, 1rem); flex: 1; min-height: 0; align-items: stretch;">
+        <!-- Code Display -->
+        <div style="background: var(--bg-card); border: 1px solid rgba(0,255,204,0.2); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;">
+          <div style="background: rgba(0,0,0,0.4); padding: 0.4rem 0.75rem; border-bottom: 1px solid rgba(0,255,204,0.1); display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></span>
+            <span id="code-filename-06" style="font-size: 0.65rem; color: var(--text-secondary); margin-left: 0.5rem; font-family: var(--font-mono);">Loading...</span>
+          </div>
+          <pre id="code-display-06" style="padding: 0.6rem; margin: 0; font-family: var(--font-mono); font-size: clamp(0.55rem, 0.9vw, 0.75rem); color: #e0e0e0; overflow-y: auto; flex: 1; line-height: 1.5; white-space: pre;">Loading step06_memory.py...</pre>
+        </div>
+
+        <!-- xterm.js Terminal -->
+        <div style="background: #0d0d12; border: 1px solid rgba(0,255,204,0.2); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;">
+          <div style="background: rgba(0,0,0,0.4); padding: 0.4rem 0.75rem; border-bottom: 1px solid rgba(0,255,204,0.1); display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></span>
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></span>
+            <span style="font-size: 0.65rem; color: var(--text-secondary); margin-left: 0.5rem; font-family: var(--font-mono);">Terminal</span>
+            <button onclick="restartDemo('demo-06')" style="background: rgba(0,255,204,0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">↺ Restart</button>
+            <button onclick="stopDemo('demo-06')" style="background: rgba(255,0,170,0.15); color: var(--accent-magenta); border: 1px solid var(--accent-magenta); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.6rem; cursor: pointer; font-family: var(--font-mono);">■ Stop</button>
+          </div>
+          <div id="terminal-container-06" style="flex: 1; overflow: hidden; padding: 0.5rem 0.5rem 0.5rem 1rem;"></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1172,10 +906,48 @@
   </section>
 
   <!-- ===========================================
-       SLIDE 9: THE PRODUCTION GAP
+       SLIDE RECAP: Build Up to Current Agent
+       =========================================== -->
+  <section class="slide code-slide" id="recap">
+    <div class="step-number reveal">09</div>
+    <div class="slide-content" style="gap: 0.5rem; max-width: 1400px; margin: 0 auto; width: 100%;">
+      <span class="step-label reveal">Recap</span>
+      <h2 class="reveal">From Simple Call to Full Agent</h2>
+      <p class="reveal" style="font-size: var(--small-size); color: var(--text-secondary);">Every step builds on the previous. Click ▶ to add each layer.</p>
+
+      <!-- Navigation buttons at top -->
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <button id="recap-prev" onclick="recapStep(-1)" style="background: transparent; border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 20px; padding: 0.4rem 1.2rem; cursor: pointer; font-family: var(--font-mono); font-size: 0.8rem; transition: all 0.2s;">◀ Prev</button>
+        <span id="recap-step-label" style="font-size: var(--small-size); color: var(--accent-cyan); font-family: var(--font-mono); min-width: 60px; text-align: center;">1/6</span>
+        <button id="recap-next" onclick="recapStep(1)" style="background: var(--accent-cyan); border: 1px solid var(--accent-cyan); color: var(--bg-primary); border-radius: 20px; padding: 0.4rem 1.2rem; cursor: pointer; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; transition: all 0.2s;">Next ▶</button>
+      </div>
+
+      <!-- Step title outside code box -->
+      <div id="recap-step-title"></div>
+
+      <!-- Large fixed code box -->
+      <div class="code-block" id="recap-code-box" style="flex: 1; min-height: 0; display: flex; flex-direction: column; width: 100%; max-width: none;">
+        <div class="code-header">
+          <span class="code-dot red"></span>
+          <span class="code-dot yellow"></span>
+          <span class="code-dot green"></span>
+          <span class="code-filename">agent evolution</span>
+        </div>
+        <div class="code-body" id="recap-code-body" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column;">
+          <pre id="recap-code" style="flex: 1;"></pre>
+        </div>
+      </div>
+
+      <!-- Description outside code box -->
+      <div id="recap-desc" style="font-size: var(--small-size); color: var(--text-secondary); min-height: 1.5em; padding: 0.25rem 0;"></div>
+    </div>
+  </section>
+
+  <!-- ===========================================
+       SLIDE 10: THE PRODUCTION GAP
        =========================================== -->
   <section class="slide concept-slide" style="overflow-y: auto;">
-    <div class="step-number reveal">09</div>
+    <div class="step-number reveal">10</div>
     <div class="slide-content" style="gap: clamp(0.4rem, 1.5vw, 0.8rem); max-width: 1100px;">
 
       <span class="step-label reveal">The Production Gap</span>
@@ -1235,13 +1007,13 @@
   </section>
 
   <!-- ===========================================
-       SLIDE 10: THE ULTIMATE TAKEAWAY
+       SLIDE 11: THE ULTIMATE TAKEAWAY
        =========================================== -->
-  <section class="slide takeaway-slide">
+  <section class="slide takeaway-slide" id="takeaway">
     <div class="slide-content">
       <span class="step-label reveal">Final Thoughts</span>
       <p class="takeaway-quote reveal">No matter how advanced the infrastructure — at its core, an agent is still just an <em>LLM embedded in a while-loop, calling functions.</em></p>
-      <p class="takeaway-sub reveal">Don't be intimidated by the jargon. Once you build it yourself from these 10 steps, the magic is gone — and the <em style="color: var(--text-primary)">actual engineering begins.</em></p>
+      <p class="takeaway-sub reveal">Don't be intimidated by the jargon. Once you build it yourself from these steps, the magic is gone — and the <em style="color: var(--text-primary)">actual engineering begins.</em></p>
       <p class="reveal" style="font-size: var(--small-size); color: var(--text-secondary); margin-top: 1rem;">The while-loop is the <strong style="color: var(--accent-cyan); font-size: 1.2em;">10%</strong> that makes it work. The engineering is the <strong style="color: var(--accent-magenta); font-size: 1.2em;">90%</strong> that makes it production-ready.</p>
       <div class="reveal" style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
         <span class="step-badge">LLM</span>
@@ -1289,7 +1061,7 @@
               this.updateNavDots();
             }
           });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.1 });
         this.slides.forEach(slide => observer.observe(slide));
       }
 
@@ -1369,58 +1141,6 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => new SlidePresentation());
-  </script>
-
-  <script>
-    const outputEl = document.getElementById("terminal-output");
-
-    function simulateLLM(message) {
-      const lower = message.toLowerCase();
-      if (lower.includes("list") || lower.includes("files") || lower.includes("ls")) {
-        return {
-          tool_calls: [{
-            id: "call_001",
-            function: { name: "run_bash", arguments: '{"command":"ls -la"}' }
-          }]
-        };
-      }
-      return { content: "Hello! How can I help you today?", tool_calls: null };
-    }
-
-    function runDemo() {
-      const inputEl = document.getElementById("user-input");
-      const userMsg = inputEl ? inputEl.value : "list files";
-      const lines = [];
-
-      lines.push("$ python step03_tool_use.py");
-      lines.push("");
-      lines.push('>>> user: "' + userMsg + '"');
-
-      const response = simulateLLM(userMsg);
-
-      if (response.tool_calls) {
-        const args = JSON.parse(response.tool_calls[0].function.arguments);
-        lines.push("");
-        lines.push("--- RESPONSE ---");
-        lines.push("tool_calls: [");
-        lines.push('    { name: "run_bash", arguments: ' + JSON.stringify(args) + " }");
-        lines.push("]");
-        lines.push("");
-        lines.push(">>> Executing: run_bash(\"" + args.command + "\")");
-        lines.push("");
-        lines.push("Tool result: agt/  step01_hello_llm.py  step02_chat_loop.py");
-        lines.push("                    step03_tool_use.py  step04_agent_loop.py ...");
-        lines.push("");
-        lines.push("--- RESPONSE (model reads tool result) ---");
-        lines.push('Agent: I found 5 files in the current directory.');
-      } else {
-        lines.push("");
-        lines.push("--- RESPONSE ---");
-        lines.push("content: \"" + response.content + "\"");
-      }
-
-      outputEl.innerHTML = lines.join("\n");
-    }
   </script>
 
 </body>

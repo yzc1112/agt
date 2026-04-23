@@ -96,7 +96,7 @@ messages = [{"role": "system", "content": SYSTEM_PROMPT}]
 
 print("=" * 50)
 print("Step 5: An Agent That Plans")
-print('Sample: "Set up a new Python project(new folder) with a calculator module and tests."')
+print('Sample: "Set up a new Python project(new folder) with a calculator module and tests. Please plan first"')
 print("=" * 50)
 
 while True:

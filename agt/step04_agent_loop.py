@@ -16,9 +16,6 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("MINIMAX_API_KEY"), base_url="https://api.minimax.chat/v1")
 MODEL = "MiniMax-M2.7"
 
-PROJECT_DIR = "step04_agent_loop"
-os.makedirs(PROJECT_DIR, exist_ok=True)
-
 
 def show_messages(messages):
     for i, m in enumerate(messages):
@@ -35,20 +32,24 @@ tools = [
 ]
 
 
+AGT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 def run_bash(command):
-    result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=30)
+    result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=30, cwd=AGT_DIR)
     return (result.stdout + result.stderr).strip() or "(no output)"
 
 def read_file(path):
+    full = os.path.join(AGT_DIR, path)
     try:
-        with open(path) as f: return f.read()
+        with open(full) as f: return f.read()
     except FileNotFoundError:
         return f"Error: {path} not found"
 
 def write_file(path, content):
-    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    with open(path, "w") as f: f.write(content)
-    return f"Written to {path}"
+    full = os.path.join(AGT_DIR, path)
+    os.makedirs(os.path.dirname(full) or ".", exist_ok=True)
+    with open(full, "w") as f: f.write(content)
+    return f"Written to {path} (resolved: {full})"
 
 TOOL_HANDLERS = {
     "run_bash":   lambda args: run_bash(args["command"]),
