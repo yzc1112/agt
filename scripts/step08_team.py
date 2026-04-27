@@ -10,14 +10,8 @@ import os
 import subprocess
 import threading
 import time
-from dotenv import load_dotenv
-from openai import OpenAI
+from config import client, MODEL
 from display import print_thinking, BLUE, GREEN, YELLOW, DIM, CYAN, MAGENTA, RESET
-
-load_dotenv()
-
-client = OpenAI(api_key=os.getenv("MINIMAX_API_KEY"), base_url="https://api.minimax.chat/v1")
-MODEL = "MiniMax-M2.7"
 
 BLUE = "\033[94m"; GREEN = "\033[92m"; YELLOW = "\033[93m"; DIM = "\033[2m"; RESET = "\033[0m"
 CYAN = "\033[96m"; MAGENTA = "\033[95m"

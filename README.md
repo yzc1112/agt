@@ -53,17 +53,18 @@ The slides work standalone — no server required. The live demo terminals won't
 Just want to run the agent scripts in your terminal? Each step is self-contained.
 
 ```bash
-# 1. Clone
+# 1. Clone and enter
 git clone https://github.com/yzc1112/agt.git
 cd agt/scripts
 
-# 2. Install deps
+# 2. Create venv and install deps
 python3 -m venv venv
-source venv/bin/activate
+source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-# 3. Set your API key (MiniMax or OpenAI)
-export MINIMAX_API_KEY=your_key_here
+# 3. Set up your API key
+cp config.example.env .env       # Then edit .env with your API key
+# Supported: MiniMax (default), OpenAI, or any OpenAI-compatible API
 
 # 4. Run any step
 python3 step01_hello_llm.py
@@ -86,7 +87,9 @@ agt/
 │       └── css/          # Styles
 │
 ├── scripts/              # Python step scripts (Option 3)
-│   ├── step01_hello_llm.py      # One LLM call
+│   ├── config.py              # Shared API config (imported by all steps)
+│   ├── config.example.env     # Template — copy to .env and fill in key
+│   ├── step01_hello_llm.py   # One LLM call
 │   ├── step02_chat_loop.py       # + message history
 │   ├── step03_tool_use.py        # + tool calls
 │   ├── step04_agent_loop.py      # + inner loop (autonomy)

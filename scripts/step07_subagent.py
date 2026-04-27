@@ -8,14 +8,8 @@ Focus: context isolation (parent vs subagent message counts).
 import json
 import os
 import subprocess
-from dotenv import load_dotenv
-from openai import OpenAI
+from config import client, MODEL
 from display import print_thinking, BLUE, GREEN, YELLOW, DIM, CYAN, RESET
-
-load_dotenv()
-
-client = OpenAI(api_key=os.getenv("MINIMAX_API_KEY"), base_url="https://api.minimax.chat/v1")
-MODEL = "MiniMax-M2.7"
 
 
 def run_bash(command):

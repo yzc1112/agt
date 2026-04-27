@@ -5,15 +5,8 @@ A while loop turns a single LLM call into an interactive chatbot.
 What's new: while True loop, message history accumulation.
 Key insight: messages[] grows with every turn — the model sees the full history.
 """
-import os
-from dotenv import load_dotenv
-from openai import OpenAI
+from config import client, MODEL
 from display import print_thinking, BLUE, GREEN, DIM, RESET
-
-load_dotenv()
-
-client = OpenAI(api_key=os.getenv("MINIMAX_API_KEY"), base_url="https://api.minimax.chat/v1")
-MODEL = "MiniMax-M2.7"
 
 messages = [
     {"role": "system", "content": "You are a helpful assistant. Be concise."},
