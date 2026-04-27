@@ -7,6 +7,7 @@ Then open: http://localhost:8000
 """
 import asyncio
 import os
+import sys
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -39,16 +40,16 @@ async def run_script(ws: WebSocket, script_name: str):
         await ws.close()
         return
 
-    await ws.send_text(f"$ python3 {safe_name}\n\n")
+    await ws.send_text(f"$ {sys.executable} {safe_name}\n\n")
 
     # Use piped subprocess — xterm.js handles all line editing locally
     proc = await asyncio.create_subprocess_exec(
-        "python3", "-u", script_path,
+        sys.executable, "-u", script_path,
         stdin=asyncio.subprocess.PIPE,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.STDOUT,
         cwd=AGT_DIR,
-        env={**os.environ},
+        env=None,  # Inherit full environment so venv site-packages are found
     )
 
     async def pipe_output():

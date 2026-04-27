@@ -43,8 +43,8 @@ python3 -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-# 4. Start the server
-python3 server.py
+# 4. Start the server (use venv Python, NOT system python3)
+./venv/bin/python3 server.py
 
 # 5. Open in browser
 open http://localhost:8000
