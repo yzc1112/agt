@@ -13,3 +13,5 @@ venv/
 node_modules/
 .vscode/
 .idea/
+.claude/
+.agent_memory/

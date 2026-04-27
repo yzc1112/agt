@@ -63,7 +63,7 @@ messages = [
 
 print("=" * 50)
 print("Step 4: The Agent Loop")
-print('Sample: "Create step04_agent_loop/calculate.py to calculate 15412*53234 and output the result into result.txt file. do not print the result out')
+print('Sample: "Create step04_agent_loop/calculate.py to calculate 15412*53234 and output the result into step04_agent_loop/result.txt file. do not print the result out')
 print('then run python3 and read the result.txt file to give me the result."')
 print("=" * 50)
 
