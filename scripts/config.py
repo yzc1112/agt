@@ -5,13 +5,10 @@ Loads API credentials from .env and creates an OpenAI-compatible client.
 
 Setup:
   1. cp config.example.env .env
-  2. Fill in your API key and provider
+  2. Fill in your API_KEY, BASE_URL, and MODEL
   3. All step scripts will auto-load this file
 
-Providers supported:
-  - MiniMax (default): set MINIMAX_API_KEY
-  - OpenAI: set OPENAI_API_KEY
-  - Any OpenAI-compatible API: set API_KEY + BASE_URL + MODEL
+Supports any OpenAI-compatible API (MiniMax, OpenAI, Ollama, etc.)
 """
 import os
 from pathlib import Path
@@ -21,22 +18,14 @@ from dotenv import load_dotenv
 _script_dir = Path(__file__).parent.resolve()
 load_dotenv(_script_dir / ".env")
 
-# ── Provider selection ────────────────────────────────────────────────────────
-_provider = os.getenv("PROVIDER", "minimax").lower()
-
-if _provider == "openai":
-    _api_key  = os.getenv("OPENAI_API_KEY")
-    _base_url = "https://api.openai.com/v1"
-    _model    = os.getenv("OPENAI_MODEL", "gpt-4o")
-else:
-    _api_key  = os.getenv("MINIMAX_API_KEY")
-    _base_url = os.getenv("BASE_URL", "https://api.minimax.chat/v1")
-    _model    = os.getenv("MODEL", "MiniMax-M2.7")
+# ── API Credentials ─────────────────────────────────────────────────────────
+API_KEY = os.getenv("API_KEY", "")
+BASE_URL = os.getenv("BASE_URL", "https://api.minimax.chat/v1")
+MODEL = os.getenv("MODEL", "MiniMax-M2.7")
 
 # ── Create client ─────────────────────────────────────────────────────────────
 from openai import OpenAI
 
-client = OpenAI(api_key=_api_key, base_url=_base_url)
-MODEL  = _model
+client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
 
-__all__ = ["client", "MODEL"]
+__all__ = ["client", "MODEL", "API_KEY", "BASE_URL"]

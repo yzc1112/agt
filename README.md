@@ -10,7 +10,7 @@ A hands-on workshop for understanding how AI agents work under the hood. From a 
 
 ### Option 1 — View Static Slides (Easiest, No Setup)
 
-Just want to view the slides? No Python needed.
+Just want to view the slides? No Python needed. All code examples and explanations are there — but the live demo terminals will NOT execute real code.
 
 ```bash
 # Double-click to open in browser:
@@ -18,8 +18,6 @@ demo-server/static/index.html
 
 # Or drag the file into any browser window
 ```
-
-All explanations and code examples are there — no server, no demos, just the slides.
 
 ---
 
@@ -33,8 +31,7 @@ Get the interactive presentation with live Python demos running in your browser.
 # 1. Go to scripts/ and create your .env file
 cd scripts
 cp config.example.env .env
-# 2. Edit .env — fill in your API key and model
-#    Supported: MiniMax (default), OpenAI, or any OpenAI-compatible API
+# 2. Edit .env — fill in API_KEY, BASE_URL, and MODEL
 ```
 
 **Then run the server:**
@@ -67,8 +64,7 @@ Run the agent scripts in your terminal. Each step is self-contained.
 # 1. Go to scripts/ and create your .env file
 cd scripts
 cp config.example.env .env
-# 2. Edit .env — fill in your API key and model
-#    Supported: MiniMax (default), OpenAI, or any OpenAI-compatible API
+# 2. Edit .env — fill in API_KEY, BASE_URL, and MODEL
 ```
 
 **Then run any step:**
@@ -133,23 +129,37 @@ agt/
 
 ## API Configuration
 
-Edit `scripts/.env` (copy from `config.example.env` if missing):
+Edit `scripts/.env` (copy from `config.example.env` if missing). Only 3 values needed:
 
 ```env
-# Choose your provider: leave blank for MiniMax, or set "openai"
-PROVIDER=
+API_KEY=your_api_key_here
+BASE_URL=https://api.minimax.chat/v1
+MODEL=MiniMax-M2.7
+```
 
-# MiniMax (default)
-MINIMAX_API_KEY=your_key_here
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `API_KEY` | Yes | — | Your API key |
+| `BASE_URL` | No | `https://api.minimax.chat/v1` | API endpoint |
+| `MODEL` | No | `MiniMax-M2.7` | Model name |
+
+**Examples:**
+```env
+# MiniMax
+API_KEY=sk-xxx
 BASE_URL=https://api.minimax.chat/v1
 MODEL=MiniMax-M2.7
 
-# OpenAI (only if PROVIDER=openai)
-OPENAI_API_KEY=your_key_here
-OPENAI_MODEL=gpt-4o
-```
+# OpenAI
+API_KEY=sk-xxx
+BASE_URL=https://api.openai.com/v1
+MODEL=gpt-4o
 
-Any OpenAI-compatible API works — just set `BASE_URL` and `MODEL`.
+# Ollama (local)
+API_KEY=ollama
+BASE_URL=http://localhost:11434/v1
+MODEL=llama3
+```
 
 ---
 
