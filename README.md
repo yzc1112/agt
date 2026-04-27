@@ -5,22 +5,23 @@ A hands-on workshop for understanding how AI agents work under the hood. From a 
 ## What's Here
 
 ```
-agt/                    # Step-by-step Python scripts
-  step01_hello_llm.py   # Simplest possible LLM call
-  step02_chat_loop.py   # Add message history (session memory)
-  step03_tool_use.py    # Give the agent tools (run_bash, read/write files)
-  step04_agent_loop.py  # Agent autonomy — inner loop until done
-  step05_planning.py    # Explicit todo/planning state
-  step06_memory.py      # File-based long-term memory
-  step07_subagent.py    # Split into specialized subagents
-  step08_team.py        # Multi-agent coordination
+scripts/                 # Step-by-step Python scripts
+  step01_hello_llm.py    # Simplest possible LLM call
+  step02_chat_loop.py    # Add message history (session memory)
+  step03_tool_use.py     # Give the agent tools (run_bash, read/write files)
+  step04_agent_loop.py   # Agent autonomy — inner loop until done
+  step05_planning.py     # Explicit todo/planning state
+  step06_memory.py       # File-based long-term memory
+  step07_subagent.py     # Split into specialized subagents
+  step08_team.py         # Multi-agent coordination
+  step09_final_agent.py  # Complete agent combining all concepts
 
-demo-server/            # Live presentation server
-  server.py             # FastAPI WebSocket server
+demo-server/             # Live presentation server
+  server.py              # FastAPI WebSocket server
   static/
     index.html          # Interactive slide deck
-    js/                 # Slide logic, flow steppers, terminal manager
-    css/                # Presentation styles
+    js/                  # Slide logic, flow steppers, terminal manager
+    css/                 # Presentation styles
 ```
 
 ## Quick Start
@@ -39,8 +40,8 @@ The presentation includes live demos that run each step script directly in the b
 ### Run a Script Manually
 
 ```bash
-cd agt
-pip install python-dotenv openai
+cd scripts
+pip install -r requirements.txt
 
 # Set your API key
 export MINIMAX_API_KEY=your_key_here
@@ -49,7 +50,7 @@ export MINIMAX_API_KEY=your_key_here
 python3 step01_hello_llm.py
 ```
 
-## The 8 Steps
+## The 9 Steps
 
 | Step | File | What You Learn |
 |------|------|----------------|
@@ -61,6 +62,7 @@ python3 step01_hello_llm.py
 | 06 | `step06_memory.py` | File-based persistence across sessions |
 | 07 | `step07_subagent.py` | Split into specialized subagents |
 | 08 | `step08_team.py` | Multi-agent orchestration |
+| 09 | `step09_final_agent.py` | Complete agent with all concepts combined |
 
 ## Slides
 
@@ -74,7 +76,6 @@ The `demo-server/` folder is a self-contained HTML presentation with:
 
 - Python 3.8+
 - [MiniMax API](https://api.minimax.chat/) (or modify to use OpenAI/Anthropic)
-- `pip install python-dotenv openai` for the scripts
 
 ## License
 

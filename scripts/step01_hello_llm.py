@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Step 1: Hello, LLM
 Connect to an LLM and get a response. That's it.

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Step 6: An Agent That Remembers
 File-based memory that persists across sessions.

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Step 4: The Agent Loop
 The agent keeps calling tools until it decides to stop.

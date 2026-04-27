@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Step 9: The Final Agent
 Combines everything from Steps 3-6 into one powerful agent:

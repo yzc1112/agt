@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Step 7: Divide and Conquer — Subagents
 Spawn a child agent with a focused task and clean context.

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Step 2: The Conversation Loop
 A while loop turns a single LLM call into an interactive chatbot.

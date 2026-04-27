@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Step 5: An Agent That Plans
 Add todo/task tools so the agent plans before acting.

@@ -17,7 +17,7 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], all
 
 # Paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-AGT_DIR = os.path.join(BASE_DIR, "..", "agt")
+AGT_DIR = os.path.join(BASE_DIR, "..", "scripts")
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 
 

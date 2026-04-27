@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Step 3: Giving the LLM Hands
 Define a tool (bash), let the LLM call it, return the result.

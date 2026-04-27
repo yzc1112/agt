@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Step 8: Agent Teams
 Multiple agents with different roles communicating via message passing.
