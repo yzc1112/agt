@@ -107,8 +107,8 @@ async def get_step(name: str):
     return {"error": "not found"}
 
 
-# Serve static files (css, js assets if any)
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+# Serve static files at root (not /static) so relative paths work for both file:// and http://
+app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")
 
 
 if __name__ == "__main__":

@@ -11,6 +11,19 @@
   <link rel="stylesheet" href="css/pres.css" />
 </head>
 <body>
+<script>
+// Fix asset paths when HTML is opened directly (file://) vs served (http://)
+(function() {
+  if (window.location.protocol === 'file:') {
+    var base = window.location.pathname.replace(/[^\/]*$/, '');
+    ['css/pres.css', 'js/slides-data.js', 'js/recap.js', 'js/flow-stepper.js', 'js/terminal.js'].forEach(function(href) {
+      var link = document.querySelector('link[href="' + href + '"]') ||
+                 document.querySelector('script[src="' + href + '"]');
+      if (link) link.href = base + href;
+    });
+  }
+})();
+</script>
 
   <!-- Progress bar -->
   <div class="progress-bar" id="progressBar"></div>
