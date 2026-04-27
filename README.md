@@ -2,53 +2,102 @@
 
 A hands-on workshop for understanding how AI agents work under the hood. From a single LLM call to a full autonomous agent — every concept, every line of code, from scratch.
 
-## What's Here
+---
 
-```
-scripts/                 # Step-by-step Python scripts
-  step01_hello_llm.py    # Simplest possible LLM call
-  step02_chat_loop.py    # Add message history (session memory)
-  step03_tool_use.py     # Give the agent tools (run_bash, read/write files)
-  step04_agent_loop.py   # Agent autonomy — inner loop until done
-  step05_planning.py     # Explicit todo/planning state
-  step06_memory.py       # File-based long-term memory
-  step07_subagent.py     # Split into specialized subagents
-  step08_team.py         # Multi-agent coordination
-  step09_final_agent.py  # Complete agent combining all concepts
+## Quick Start (Choose One)
 
-demo-server/             # Live presentation server
-  server.py              # FastAPI WebSocket server
-  static/
-    index.html          # Interactive slide deck
-    js/                  # Slide logic, flow steppers, terminal manager
-    css/                 # Presentation styles
-```
+### Option 1 — Full Slides with Live Demos (Recommended for Presentations)
 
-## Quick Start
-
-### Run the Presentation
+Get the interactive presentation with live Python demos running in your browser.
 
 ```bash
+# 1. Clone and enter
+git clone https://github.com/yzc1112/agt.git
+cd agt
+
+# 2. Create venv and install
+python3 -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -r demo-server/requirements.txt
+
+# 3. Start the server
 cd demo-server
-pip install fastapi uvicorn websockets
 python3 server.py
-# Open http://localhost:8000
+
+# 4. Open in browser
+open http://localhost:8000
 ```
 
-The presentation includes live demos that run each step script directly in the browser via WebSocket + xterm.js.
+That's it. Navigate with arrow keys or click the dots.
 
-### Run a Script Manually
+---
+
+### Option 2 — Static Slides Only (No Setup, No Demos)
+
+Just want to view the slides? No Python needed.
 
 ```bash
-cd scripts
+# Just open this file in any browser:
+open demo-server/static/index.html
+
+# Or deploy to Vercel (free) for a shareable URL:
+npx vercel deploy ./demo-server/static --prod
+```
+
+The slides work standalone — no server required. The live demo terminals won't execute code, but all the explanations and code examples are there.
+
+---
+
+### Option 3 — Run the Python Scripts Directly (No Slides)
+
+Just want to run the agent scripts in your terminal? Each step is self-contained.
+
+```bash
+# 1. Clone
+git clone https://github.com/yzc1112/agt.git
+cd agt/scripts
+
+# 2. Install deps
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 
-# Set your API key
+# 3. Set your API key (MiniMax or OpenAI)
 export MINIMAX_API_KEY=your_key_here
 
-# Run any step
+# 4. Run any step
 python3 step01_hello_llm.py
+python3 step04_agent_loop.py
+# ...etc
 ```
+
+---
+
+## Project Structure
+
+```
+agt/
+├── demo-server/           # Interactive presentation (Option 1)
+│   ├── server.py          # WebSocket + FastAPI server
+│   ├── requirements.txt   # Python deps for the server
+│   └── static/
+│       ├── index.html    # Slide deck (also works standalone, Option 2)
+│       ├── js/           # Slide logic, terminal manager
+│       └── css/          # Styles
+│
+├── scripts/              # Python step scripts (Option 3)
+│   ├── step01_hello_llm.py      # One LLM call
+│   ├── step02_chat_loop.py       # + message history
+│   ├── step03_tool_use.py        # + tool calls
+│   ├── step04_agent_loop.py      # + inner loop (autonomy)
+│   ├── step05_planning.py         # + explicit todo state
+│   ├── step06_memory.py          # + file-based memory
+│   ├── step07_subagent.py        # + subagents
+│   ├── step08_team.py           # + multi-agent teams
+│   └── step09_final_agent.py    # complete agent
+```
+
+---
 
 ## The 9 Steps
 
@@ -62,20 +111,16 @@ python3 step01_hello_llm.py
 | 06 | `step06_memory.py` | File-based persistence across sessions |
 | 07 | `step07_subagent.py` | Split into specialized subagents |
 | 08 | `step08_team.py` | Multi-agent orchestration |
-| 09 | `step09_final_agent.py` | Complete agent with all concepts combined |
+| 09 | `step09_final_agent.py` | Complete agent with all concepts |
 
-## Slides
-
-The `demo-server/` folder is a self-contained HTML presentation with:
-
-- Animated slide transitions and flow steppers
-- Live Python execution in-browser via WebSocket
-- Interactive recap showing the build-up from simple call to full agent
+---
 
 ## Requirements
 
 - Python 3.8+
-- [MiniMax API](https://api.minimax.chat/) (or modify to use OpenAI/Anthropic)
+- API key: [MiniMax API](https://api.minimax.chat/) (or modify scripts to use OpenAI/Anthropic)
+
+---
 
 ## License
 
