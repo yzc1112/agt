@@ -25,32 +25,36 @@ demo-server/static/index.html
 
 Get the interactive presentation with live Python demos running in your browser. Requires more setup.
 
-**Before you start — add your API key:**
+**Step 1 — Add your API key:**
 
 ```bash
-# 1. Go to scripts/ and create your .env file
 cd scripts
 cp config.example.env .env
-# 2. Edit .env — fill in API_KEY, BASE_URL, and MODEL
+# Edit .env — fill in API_KEY, BASE_URL, and MODEL
 ```
 
-**Then run the server:**
+**Step 2 — Set up demo-server:**
 
 ```bash
-# 3. Create venv and install
 cd demo-server
 python3 -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
+```
 
-# 4. Start the server (use venv Python, NOT system python3)
+**Step 3 — Start the server:**
+
+```bash
 ./venv/bin/python3 server.py
+```
 
-# 5. Open in browser
+**Step 4 — Open in browser:**
+
+```bash
 open http://localhost:8000
 ```
 
-Navigate with arrow keys or click the dots. The live demos will execute real Python in your browser.
+**To stop the server:** `lsof -ti :8000 | xargs kill`
 
 ---
 
@@ -58,24 +62,23 @@ Navigate with arrow keys or click the dots. The live demos will execute real Pyt
 
 Run the agent scripts in your terminal. Each step is self-contained.
 
-**Before you start:**
+**Step 1 — Add your API key:**
 
 ```bash
-# 1. Go to scripts/ and create your .env file
 cd scripts
 cp config.example.env .env
-# 2. Edit .env — fill in API_KEY, BASE_URL, and MODEL
+# Edit .env — fill in API_KEY, BASE_URL, and MODEL
 ```
 
-**Then run any step:**
+**Step 2 — Set up and run:**
 
 ```bash
-# 3. Create venv and install deps
+cd scripts
 python3 -m venv venv
-source venv/bin/activate
+source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-# 4. Run any step
+# Run any step
 python3 step01_hello_llm.py
 python3 step04_agent_loop.py
 # ...etc
@@ -89,7 +92,7 @@ python3 step04_agent_loop.py
 agt/
 ├── demo-server/           # Slides + live demo server (Option 2)
 │   ├── server.py          # WebSocket + FastAPI server
-│   ├── requirements.txt   # Python deps
+│   ├── requirements.txt  # Python deps
 │   └── static/
 │       ├── index.html    # Slide deck (also opens standalone, Option 1)
 │       ├── js/           # Slide logic, terminal manager
@@ -98,6 +101,7 @@ agt/
 ├── scripts/              # Python step scripts (Option 3)
 │   ├── config.py              # Shared API config
 │   ├── config.example.env     # Template — copy to .env and fill in key
+│   ├── requirements.txt       # Python deps
 │   ├── step01_hello_llm.py   # One LLM call
 │   ├── step02_chat_loop.py    # + message history
 │   ├── step03_tool_use.py     # + tool calls
